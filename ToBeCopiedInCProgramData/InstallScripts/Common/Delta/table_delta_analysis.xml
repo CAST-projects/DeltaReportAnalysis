@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DELTA_ANALYSIS" version="1.0.0.0">
+	<table name="DELTA_REPORT" description="Delta report history">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TAG" type="string" nullable="false" length="100" description="Execution tag"/>
+		<index name="DELTA_REPORT_PK" type="primary key">
+			<column name="ID"/>
+		</index>
+	</table>
+	<table name="DELTA_ID" description="Max IDs for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="NAME" type="string" nullable="false" length="100" description="Delta name"/>
+		<column name="VALUE" type="int" nullable="false" description="Max value"/>
+		<index name="DELTA_ID_PK" type="primary key">
+			<column name="ID,TYPE,NAME"/>
+		</index>
+	</table>
+	<table name="DELTA_WK_OBJECT" description="Number of objects per type for each execution">
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of objects"/>
+		<index name="DELTA_WK_OBJECT_PK" type="primary key">
+			<column name="OBJECT_TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_OBJECT" description="Number of objects per type for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of objects"/>
+		<column name="OBJECT_TYPE_STR" type="string" nullable="false" length="255" description="Object type description"/>
+		<column name="LANGUAGE" type="string" nullable="false" length="255" description="Language"/>
+		<index name="DELTA_OBJECT_PK" type="index">
+			<column name="ID,TYPE"/>
+		</index>
+		<index name="DELTA_OBJECT_IDX" type="index">
+			<column name="OBJECT_TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_WK_PROPS" description="Number of string properties per type for each execution">
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="PROP_TYPE" type="int" nullable="false" description="Property type"/>
+		<column name="PROP_SUB_TYPE" type="int" nullable="false" description="Property sub type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of properties"/>
+		<index name="DELTA_WK_PROPS_IDX1" type="index">
+			<column name="OBJECT_TYPE"/>
+		</index>
+		<index name="DELTA_WK_PROPS_IDX2" type="index">
+			<column name="PROP_TYPE,PROP_SUB_TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_PROPS" description="Number of string properties per type for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="PROP_TYPE" type="int" nullable="false" description="Property type"/>
+		<column name="PROP_SUB_TYPE" type="int" nullable="false" description="Property sub type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of properties"/>
+		<column name="OBJECT_TYPE_STR" type="string" nullable="false" length="255" description="Object type description"/>
+		<column name="PROP_TYPE_STR" type="string" nullable="false" length="255" description="Object type description"/>
+		<column name="LANGUAGE" type="string" nullable="false" length="255" description="Language"/>
+		<index name="DELTA_PROPS_IDX" type="index">
+			<column name="ID,TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_WK_PROPN" description="Number of numeric properties per type for each execution">
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="PROP_TYPE" type="int" nullable="false" description="Property type"/>
+		<column name="PROP_SUB_TYPE" type="int" nullable="false" description="Property sub type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of properties"/>
+		<column name="TOTAL" type="int" nullable="false" description="Sum of properties"/>
+		<index name="DELTA_WK_PROPN_IDX1" type="index">
+			<column name="OBJECT_TYPE"/>
+		</index>
+		<index name="DELTA_WK_PROPN_IDX2" type="index">
+			<column name="PROP_TYPE,PROP_SUB_TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_PROPN" description="Number of numeric properties per type for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="OBJECT_TYPE" type="int" nullable="false" description="Object type"/>
+		<column name="PROP_TYPE" type="int" nullable="false" description="Property type"/>
+		<column name="PROP_SUB_TYPE" type="int" nullable="false" description="Property sub type"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of properties"/>
+		<column name="TOTAL" type="int" nullable="false" description="Sum of properties"/>
+		<column name="OBJECT_TYPE_STR" type="string" nullable="false" length="255" description="Object type description"/>
+		<column name="PROP_TYPE_STR" type="string" nullable="false" length="255" description="Object type description"/>
+		<column name="LANGUAGE" type="string" nullable="false" length="255" description="Language"/>
+		<index name="DELTA_PROPN_IDX" type="index">
+			<column name="ID,TYPE"/>
+		</index>
+	</table>
+	<table name="DELTA_WK_LINK" description="Number of links per type for each execution">
+		<column name="CALLER_TYPE" type="int" nullable="false" description="Type of the caller object"/>
+		<column name="LINK_TYPE_LO" type="int" nullable="false" description="Main type"/>
+		<column name="LINK_TYPE_HI" type="int" nullable="false" description="Sub type"/>
+		<column name="CALLED_TYPE" type="int" nullable="false" description="Type of the called object"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of links"/>
+		<index name="DELTA_WK_LINK_IDX1" type="index">
+			<column name="CALLER_TYPE"/>
+		</index>
+		<index name="DELTA_WK_LINK_IDX2" type="index">
+			<column name="CALLED_TYPE"/>
+		</index>
+		<index name="DELTA_WK_LINK_IDX3" type="index">
+			<column name="LINK_TYPE_LO,LINK_TYPE_HI"/>
+		</index>
+	</table>
+	<table name="DELTA_LINK" description="Number of links per type for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="CALLER_TYPE" type="int" nullable="false" description="Type of the caller object"/>
+		<column name="LINK_TYPE_LO" type="int" nullable="false" description="Main type"/>
+		<column name="LINK_TYPE_HI" type="int" nullable="false" description="Sub type"/>
+		<column name="CALLED_TYPE" type="int" nullable="false" description="Type of the called object"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of links"/>
+		<column name="CALLER_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the caller object"/>
+		<column name="LINK_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the link"/>
+		<column name="CALLED_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the called object"/>
+		<column name="LANGUAGE" type="string" nullable="false" length="255" description="Language"/>
+		<index name="DELTA_LINK_IDX1" type="index">
+			<column name="CALLER_TYPE"/>
+		</index>
+		<index name="DELTA_LINK_IDX2" type="index">
+			<column name="CALLED_TYPE"/>
+		</index>
+		<index name="DELTA_LINK_IDX3" type="index">
+			<column name="LINK_TYPE_LO,LINK_TYPE_HI"/>
+		</index>
+	</table>
+	<table name="DELTA_WK_DYNLINK" description="Number of dynamic links per type for each execution">
+		<column name="CALLER_TYPE" type="int" nullable="false" description="Type of the caller object"/>
+		<column name="LINK_TYPE_LO" type="int" nullable="false" description="Main type"/>
+		<column name="LINK_TYPE_HI" type="int" nullable="false" description="Sub type"/>
+		<column name="CALLED_TYPE" type="int" nullable="false" description="Type of the called object"/>
+		<column name="LINK_STATUS" type="string" nullable="false" length="1" description="Validation status of the links"/>
+		<column name="LINK_RF" type="string" nullable="false" length="1" description="Link produced by a reference finder"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of links"/>
+		<index name="DELTA_WK_LINK_IDX1" type="index">
+			<column name="CALLER_TYPE"/>
+		</index>
+		<index name="DELTA_WK_LINK_IDX2" type="index">
+			<column name="CALLED_TYPE"/>
+		</index>
+		<index name="DELTA_WK_LINK_IDX3" type="index">
+			<column name="LINK_TYPE_LO,LINK_TYPE_HI"/>
+		</index>
+	</table>
+	<table name="DELTA_DYNLINK" description="Number of dynamic links per type for each execution">
+		<column name="ID" type="int" nullable="false" description="Execution id"/>
+		<column name="TYPE" type="string" nullable="false" length="1" description="Delta type"/>
+		<column name="CALLER_TYPE" type="int" nullable="false" description="Type of the caller object"/>
+		<column name="LINK_TYPE_LO" type="int" nullable="false" description="Main type"/>
+		<column name="LINK_TYPE_HI" type="int" nullable="false" description="Sub type"/>
+		<column name="CALLED_TYPE" type="int" nullable="false" description="Type of the called object"/>
+		<column name="LINK_STATUS" type="string" nullable="false" length="1" description="Validation status of the links"/>
+		<column name="LINK_RF" type="string" nullable="false" length="1" description="Link produced by a reference finder"/>
+		<column name="VALUE" type="int" nullable="false" description="Number of links"/>
+		<column name="CALLER_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the caller object"/>
+		<column name="LINK_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the link"/>
+		<column name="CALLED_TYPE_STR" type="string" nullable="false" length="255" description="Type description of the called object"/>
+		<column name="LANGUAGE" type="string" nullable="false" length="255" description="Language"/>
+		<index name="DELTA_LINK_IDX1" type="index">
+			<column name="CALLER_TYPE"/>
+		</index>
+		<index name="DELTA_LINK_IDX2" type="index">
+			<column name="CALLED_TYPE"/>
+		</index>
+		<index name="DELTA_LINK_IDX3" type="index">
+			<column name="LINK_TYPE_LO,LINK_TYPE_HI"/>
+		</index>
+	</table>
+	
+	<scope name="DELTA_ANALYSIS">
+		<scopetable name="DELTA_REPORT"/>
+		<scopetable name="DELTA_ID"/>
+		<scopetable name="DELTA_WK_OBJECT"/>
+		<scopetable name="DELTA_OBJECT"/>
+		<scopetable name="DELTA_WK_PROPS"/>
+		<scopetable name="DELTA_PROPS"/>
+		<scopetable name="DELTA_WK_PROPN"/>
+		<scopetable name="DELTA_PROPN"/>
+		<scopetable name="DELTA_WK_LINK"/>
+		<scopetable name="DELTA_LINK"/>
+		<scopetable name="DELTA_WK_DYNLINK"/>
+		<scopetable name="DELTA_DYNLINK"/>
+	</scope>
+  <!--
+	<scope name="UPDATED_820_822_DELTA_ANALYSIS">
+		<scopetable name="VIEWER_USER_ACCESS"/>
+	</scope>
+	-->
+</config>

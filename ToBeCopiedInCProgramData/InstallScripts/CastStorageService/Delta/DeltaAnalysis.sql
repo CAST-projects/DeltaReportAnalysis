@@ -100,7 +100,7 @@ Begin
   truncate table DELTA_WK_PROPN;
   
   insert into DELTA_WK_PROPN (OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE,VALUE,TOTAL)
-  select k.objtyp,T1.inftyp,T1.infsubtyp,count(1),sum(T1.infval)
+  select k.objtyp,T1.inftyp,T1.infsubtyp,count(1),case when sum(T1.infval) > 2147483647 then 0 else sum(T1.infval) end
   from keys k
     join objinf T1 on (T1.idobj = k.idkey)
   where k.idkey <= L_ID_MAX
@@ -130,8 +130,7 @@ Begin
 
   insert into DELTA_LINK (ID,TYPE,CALLER_TYPE,LINK_TYPE_LO,LINK_TYPE_HI,CALLED_TYPE,VALUE,CALLER_TYPE_STR,LINK_TYPE_STR,CALLED_TYPE_STR,LANGUAGE)
   select p_id,p_delta_type,o.CALLER_TYPE,o.LINK_TYPE_LO,o.LINK_TYPE_HI,o.CALLED_TYPE,o.VALUE,t1.objtypstr
-    ,(select typnam from linktyp LT join typ on (typ.idtyp = LT.linktyp)
-      where LT.linktyp <> 131008 and LT.acctyplo = o.LINK_TYPE_LO and LT.acctyphi = o.LINK_TYPE_HI)
+    ,(select COALESCE(staticdesc,'xxx') from csv_linktype LT where LT.acctyplo = o.LINK_TYPE_LO and LT.acctyphi = o.LINK_TYPE_HI)
     ,t2.objtypstr,t1.lngstr
   from DELTA_WK_LINK o
     join objtypstr t1 on (t1.objtyp = o.CALLER_TYPE)
@@ -153,8 +152,7 @@ Begin
 
   insert into DELTA_DYNLINK (ID,TYPE,CALLER_TYPE,LINK_TYPE_LO,LINK_TYPE_HI,CALLED_TYPE,LINK_STATUS,LINK_RF,VALUE,CALLER_TYPE_STR,LINK_TYPE_STR,CALLED_TYPE_STR,LANGUAGE)
   select p_id,p_delta_type,o.CALLER_TYPE,o.LINK_TYPE_LO,o.LINK_TYPE_HI,o.CALLED_TYPE,o.LINK_STATUS,o.LINK_RF,o.VALUE,t1.objtypstr
-    ,(select typnam from linktyp LT join typ on (typ.idtyp = LT.linktyp)
-      where LT.linktyp <> 131008 and LT.acctyplo = o.LINK_TYPE_LO and LT.acctyphi = o.LINK_TYPE_HI)
+    ,(select COALESCE(staticdesc,'xxx') from csv_linktype LT where LT.acctyplo = o.LINK_TYPE_LO and LT.acctyphi = o.LINK_TYPE_HI)
     ,t2.objtypstr,t1.lngstr
   from DELTA_WK_DYNLINK o
     join objtypstr t1 on (t1.objtyp = o.CALLER_TYPE)

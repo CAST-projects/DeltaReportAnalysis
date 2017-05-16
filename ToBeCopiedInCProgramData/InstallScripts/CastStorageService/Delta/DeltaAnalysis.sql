@@ -99,15 +99,40 @@ Begin
    
   truncate table DELTA_WK_PROPN;
   
-  insert into DELTA_WK_PROPN (OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE,VALUE,TOTAL)
-  select k.objtyp,T1.inftyp,T1.infsubtyp,count(1),case when sum(T1.infval) > 2147483647 then 0 else sum(T1.infval) end
+  perform droptemporarytable('delta_wk_propn_excluded');
+  create temporary table DELTA_WK_PROPN_EXCLUDED (OBJECT_TYPE integer,PROP_TYPE integer,PROP_SUB_TYPE integer) with (autovacuum_enabled=false);
+  insert into DELTA_WK_PROPN_EXCLUDED (OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE) 
+  select k.objtyp,T1.inftyp,T1.infsubtyp
   from keys k
     join objinf T1 on (T1.idobj = k.idkey)
   where k.idkey <= L_ID_MAX
   and not ((T1.inftyp = 3 and T1.infsubtyp = 0) or (T1.inftyp = 4 and T1.infsubtyp = 0))
   and exists (select 1 from objpro op where op.idobj = k.idkey)
+  group by k.objtyp,T1.inftyp,T1.infsubtyp
+  having sum(T1.infval) > 2147483647 or sum(T1.infval) < -2147483648;
+   
+  insert into DELTA_WK_PROPN (OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE,VALUE,TOTAL)
+  select k.objtyp,T1.inftyp,T1.infsubtyp,count(1),0 -- sum is higher or lower than max value for integer
+  from keys k
+    join objinf T1 on (T1.idobj = k.idkey)
+    join DELTA_WK_PROPN_EXCLUDED T2 on (T2.OBJECT_TYPE = k.objtyp and T2.PROP_TYPE = T1.inftyp and T2.PROP_SUB_TYPE = T1.infsubtyp)
+  where k.idkey <= L_ID_MAX
+  and not ((T1.inftyp = 3 and T1.infsubtyp = 0) or (T1.inftyp = 4 and T1.infsubtyp = 0))
+  and exists (select 1 from objpro op where op.idobj = k.idkey)
+  group by k.objtyp,T1.inftyp,T1.infsubtyp;
+  
+  insert into DELTA_WK_PROPN (OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE,VALUE,TOTAL)
+  select k.objtyp,T1.inftyp,T1.infsubtyp,count(1),sum(T1.infval)
+  from keys k
+    join objinf T1 on (T1.idobj = k.idkey)
+  where k.idkey <= L_ID_MAX
+  and not ((T1.inftyp = 3 and T1.infsubtyp = 0) or (T1.inftyp = 4 and T1.infsubtyp = 0))
+  and exists (select 1 from objpro op where op.idobj = k.idkey)
+  and not exists (select 1 from DELTA_WK_PROPN_EXCLUDED T2 where T2.OBJECT_TYPE = k.objtyp and T2.PROP_TYPE = T1.inftyp and T2.PROP_SUB_TYPE = T1.infsubtyp)
   group by k.objtyp,T1.inftyp,T1.infsubtyp;
 
+  perform droptemporarytable('delta_wk_propn_excluded');
+  
   insert into DELTA_PROPN (ID,TYPE,OBJECT_TYPE,PROP_TYPE,PROP_SUB_TYPE,VALUE,TOTAL,OBJECT_TYPE_STR,PROP_TYPE_STR,LANGUAGE)
   select p_id,p_delta_type,o.OBJECT_TYPE,o.PROP_TYPE,o.PROP_SUB_TYPE,o.VALUE,o.TOTAL,t.objtypstr,d.dsc,t.lngstr
   from DELTA_WK_PROPN o

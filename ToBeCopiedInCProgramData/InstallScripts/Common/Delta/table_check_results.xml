@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DELTA_CHECKS" version="1.1.0">
+	<table name="DELTA_JAVA_METHOD" description="Delta report history">
+		<column name="IDKEY" type="int" nullable="false" description="ID of the java method"/>
+		<column name="IDSHORTNAM" type="string" nullable="false" length="2000" description="GUID"/>
+		<column name="ARGS" type="string" nullable="false" length="500" description="Arguments"/>
+		<index name="DELTA_JAVA_METHOD_IDX" type="index">
+			<column name="IDKEY"/>
+		</index>
+	</table>
+	<table name="DELTA_JAVA_METHOD_ARGS" description="Arguments of the java method">
+		<column name="IDKEY" type="int" nullable="false" description="ID of the java method"/>
+		<column name="IDSHORTNAM" type="string" nullable="false" length="2000" description="GUID"/>
+		<column name="ARG" type="string" nullable="false" length="500" description="List of argument"/>
+		<index name="DELTA_JAVA_METHOD_ARGS_IDX" type="index">
+			<column name="IDKEY"/>
+		</index>
+	</table>
+	<table name="DELTA_JAVA_PROJECTS" description="List of java projects">
+		<column name="IDPRO" type="int" nullable="false" description="ID"/>
+		<column name="PRONAM" type="string" nullable="false" length="255" description="Name"/>
+		<index name="DELTA_JAVA_PROJECTS_IDX" type="primary key">
+			<column name="IDPRO"/>
+		</index>
+	</table>
+	<table name="DELTA_JAVA_DEPENDENCIES" description="List of java project dependencies">
+		<column name="IDPRO" type="int" nullable="false" description="ID"/>
+		<column name="PRONAM" type="string" nullable="false" length="255" description="Name"/>
+		<column name="IDPRODEP" type="int" nullable="false" description="ID"/>
+		<column name="PRODEPNAM" type="string" nullable="false" length="255" description="Name"/>
+		<index name="DELTA_JAVA_DEPENDENCIES_IDX" type="primary key">
+			<column name="IDPRO,IDPRODEP"/>
+		</index>
+	</table>
+	
+	<scope name="DELTA_CHECKS">
+		<scopetable name="DELTA_JAVA_METHOD"/>
+		<scopetable name="DELTA_JAVA_METHOD_ARGS"/>
+		<scopetable name="DELTA_JAVA_PROJECTS"/>
+		<scopetable name="DELTA_JAVA_DEPENDENCIES"/>
+	</scope>
+</config>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>com.castsoftware.labs.deltareportanalysis</id>
+    <version>_VERSION_-build_BUILDNO_</version>
+    <title>Delta Report on Analysis</title>
+    <authors>CAST Labs</authors>
+    <owners>CAST</owners>
+    <licenseUrl>https://extend.castsoftware.com/V2/Licenses/Cast-Licence-Labs-1.0.html</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/CAST-projects/DeltaReportAnalysis</projectUrl>
+    <releaseNotes>https://github.com/CAST-projects/DeltaReportAnalysis/wiki</releaseNotes>
+    <iconUrl>https://raw.githubusercontent.com/CAST-projects/DeltaReportAnalysis/master/DeltaReportAnalysis.png</iconUrl>
+    <description>This extension should be installed to enable the delta report on the analysis service.</description>
+    <tags>Delta CAIP8.2.x</tags>
+    <dependencies>
+        <dependency id="CAIP" version="8.2.0"/>   
+    </dependencies> 
+  </metadata>
+	<files>
+		<file src="InstallScripts\**" target="InstallScripts" />    
+		<file src="DeltaReportAnalysis Technology Extension Version.txt" target="DeltaReportAnalysis Technology Extension Version.txt" />    
+		<file src="readme.html" target="readme.html" />    
+	</files>
+</package>

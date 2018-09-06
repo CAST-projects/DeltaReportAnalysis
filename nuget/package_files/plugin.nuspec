@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.labs.deltareportanalysis</id>
-    <version>_VERSION_-build_BUILDNO_</version>
+    <version>1.1.0-build_BUILDNO_</version>
     <title>Delta Report on Analysis</title>
     <authors>CAST Labs</authors>
     <owners>CAST</owners>

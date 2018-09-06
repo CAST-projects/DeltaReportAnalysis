@@ -68,9 +68,6 @@ for %%a in (%PACK_DIR% %THEDELIVDIR%) do (
 )
 
 set ROBOPT=/ndl /njh /njs /np
-set EXTNAME=deltareportanalysis
-set PROJNAME=CAST-deltareportanalysis
-
 robocopy %ROBOPT% %SRC_DIR%\nuget\package_files %PACK_DIR% /e
 if errorlevel 8 goto endclean
 

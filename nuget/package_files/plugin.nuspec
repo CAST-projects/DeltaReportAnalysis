@@ -17,9 +17,4 @@
         <dependency id="CAIP" version="8.2.0"/>   
     </dependencies> 
   </metadata>
-	<files>
-		<file src="InstallScripts\**" target="InstallScripts" />    
-		<file src="DeltaReportAnalysis Technology Extension Version.txt" target="DeltaReportAnalysis Technology Extension Version.txt" />    
-		<file src="readme.html" target="readme.html" />    
-	</files>
 </package>
